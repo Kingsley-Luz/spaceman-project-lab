@@ -1,16 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Spaceman</title>
     <link rel="stylesheet" href="./css/style.css" />
     <script src="./js/app.js" defer></script>
 </head>
+
 <body>
-    <header>
-        <h1>Spaceman</h1>
-    </header>
-    
+    <div class="spaceman-game-container">
+    <h1>Spaceman</h1>
+    <div id = "start-screen"></div>
+    <h2>Instructions</h2>
+    <ol>
+        <li>Press "Play Now" to begin</li>
+        <li>Guess a letter to fill in the blank of the mystery word</li>
+        <li>If player guesses correctly, a blank space will be filled with the letter</li>
+        <li>Incorrect guesses will cause a part of the spaceship to be drawn</li>
+        <li>After seven incorrect guesses, the player loses</li>
+        <li>Player wins by correctly guessing all the letters to the mystery word before getting seven incorrect</li>
+    </ol>
+    <button onclick="playNow">Play Now</button>
+
 </body>
+
 </html>

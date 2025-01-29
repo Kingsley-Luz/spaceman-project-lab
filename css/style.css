@@ -1,0 +1,19 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    background-image: url ('https://media.npr.org/assets/img/2022/05/27/Sagittarius_A_black_hole_swarm_wide-9fcc93724ea0f82c8127ff164f25918963aec007.jpg?s=1400&c=100&f=jpeg');
+
+}
+
+h1 {
+    color: black
+}
+
+h2{
+    color: black;
+}
+
+ol {
+    color: black;
+}
