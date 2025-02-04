@@ -1,6 +1,6 @@
 /*-------------------------------- Constants --------------------------------*/
 const maxGuesses = 6;
-const gameTimeLimit = 60;
+const gameTimeLimit = 45;
 const codingQuiz = [
   {
     word: "elephant",
@@ -48,13 +48,13 @@ const codingQuiz = [
 let currentWord;
 let correctLetters;
 let wrongGuessCount;
-let timerInterval;
+let timer;
 /*------------------------ Cached Element References ------------------------*/
 const wordDisplay = 
     document.querySelector(".word-display");
 const keyboardDiv = 
     document.querySelector(".keyboard");
-const hangmanImage = 
+const spacemanImage = 
     document.querySelector(".spaceman-box-img");
 const guessesText = 
     document.querySelector(".guesses-text b");
@@ -77,8 +77,9 @@ const resetGame = () => {
     .split("")
     .map(() => `<li class="letter"></li>`)
     .join("");
-  clearInterval(timerInterval);
+  clearInterval(timer);
   startTimer();
+  render();
   gameModal.classList.remove("show");
 };
 
@@ -91,27 +92,28 @@ const getRandomWord = () => {
   document.querySelector(".hint-text b")
   .innerText = hint;
   resetGame();
+  render()
 };
 
 const startTimer = () => {
   let timeLeft = gameTimeLimit;
-  timerInterval = setInterval(() => {
+  timer = setInterval(() => {
     timeLeft--;
     timerDisplay.innerText = `Time left:
     ${Math.floor(timeLeft / 60)}:${
       timeLeft % 60 < 10 ? "0" : ""
     }${timeLeft % 60}`;
     if (timeLeft <= 0) {
-      clearInterval(timerInterval);
+      clearInterval(timer);
       gameOver(false);
     }
   }, 1000);
 };
 const gameOver = (isVictory) => {
   setTimeout(() => {
-    clearInterval(timerInterval);
+    clearInterval(timer);
     const modalText = isVictory
-      ? ` Yeah! You found the word:`
+      ? ` Yeah! You won:`
       : `You Loss! The correct word was:`;
     gameModal.querySelector(
       "p"
@@ -120,7 +122,7 @@ const gameOver = (isVictory) => {
     gameModal.classList.add("show");
   }, 300);
 };
-const initGame = (button, clickedLetter) => {
+const init= (button, clickedLetter) => {
   if (currentWord.includes(clickedLetter)) {
     [...currentWord].forEach((letter, index) => {
       if (letter === clickedLetter) {
@@ -133,54 +135,19 @@ const initGame = (button, clickedLetter) => {
     });
   } else {
     wrongGuessCount++;
-    if (wrongGuessCount === 0) {
-      spacemanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215173028/0.png`;
-    }
-    if (wrongGuessCount === 1) {
-      spacemanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215173033/1.png`;
-    }
-    if (wrongGuessCount === 2) {
-      spacemanImage.src = 
-      
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215173038/2.png`;
-    }
-    if (wrongGuessCount === 3) {
-      spacemanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215172733/3.png`;
-    }
-    if (wrongGuessCount == 4) {
-      spacemanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215173815/4.png`;
-    }
-    if (wrongGuessCount === 5) {
-      spacemanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215173859/5.png`;
-    }
-    if (wrongGuessCount === 6) {
-      spacemanImage.src =
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215173931/6.png`;
-    }
-    
-    `images/spaceman-${wrongGuessCount}.svg`;
+   
   }
 
   button.disabled = true;
   guessesText.innerText = `${wrongGuessCount} / ${maxGuesses}`;
 
   if (wrongGuessCount === maxGuesses) 
-  return gameOver(false);
-  if (correctLetters.length === currentWord.length)
-  return gameOver(true);
+    return gameOver(false);
+    if (correctLetters.length === currentWord.length)
+    return gameOver(true);
+render()
 };
+
 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -189,7 +156,7 @@ for (let i = 97; i <= 122; i++) {
   button.innerText = String.fromCharCode(i);
   keyboardDiv.appendChild(button);
   button.addEventListener("click", (e) =>
-    initGame(e.target, String.fromCharCode(i))
+    init(e.target, String.fromCharCode(i))
   );
 }
 getRandomWord();
